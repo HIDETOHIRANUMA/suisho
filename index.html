@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>水晶は、まだ ふるえている — The Quartz Is Still Trembling</title>
+<meta name="description" content="あなたの端末の中で ふるえている水晶と、甲斐の国の水晶の はなし。画面が書きかわる間隔のゆれを、1秒に1枚ずつ水晶の中に重ねていくウェブ作品。">
+<meta name="theme-color" content="#05060a">
+<meta property="og:title" content="水晶は、まだ ふるえている — The Quartz Is Still Trembling">
+<meta property="og:description" content="あなたの端末の中で ふるえている水晶と、甲斐の国の水晶の はなし。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://hidetohiranuma.github.io/suisho/img/og.jpg">
+<meta property="og:url" content="https://hidetohiranuma.github.io/suisho/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/icon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/shippori-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<header class="mark" aria-hidden="true"><span data-t="title">水晶は、まだ ふるえている</span></header>
+
+<section id="start" class="start" aria-labelledby="t-title">
+  <h1 id="t-title" data-t="title">水晶は、まだ ふるえている</h1>
+  <p class="sub" data-t="sub">The Quartz Is Still Trembling</p>
+  <p class="lead" data-t="lead"></p>
+  <div class="go">
+    <button type="button" id="start-ja" class="btn main" data-lang="ja" data-t="start">はじめる</button>
+    <button type="button" id="start-other" class="btn" data-lang="en" lang="en">Start in English</button>
+  </div>
+  <p class="note" data-t="note"></p>
+  <button type="button" class="link about-open" data-t="about">この作品について</button>
+  <p class="nogl-msg">この ブラウザでは 映像を 表示できません（WebGL2 が 必要です）。 This browser cannot show the images (WebGL2 is required).</p>
+</section>
+
+<div id="big" class="big" aria-hidden="true"></div>
+<p id="line" class="line" role="status" aria-live="polite"></p>
+<p id="hud" class="hud" aria-hidden="true"></p>
+
+<section id="end" class="end" hidden>
+  <p id="stats" class="stats"></p>
+  <div class="go">
+    <button type="button" id="save" class="btn main" data-t="save">この水晶を 画像で のこす</button>
+    <button type="button" id="again" class="btn" data-t="again">もういちど</button>
+    <button type="button" class="btn about-open" data-t="about">この作品について</button>
+  </div>
+</section>
+
+<div id="about" class="about" role="dialog" aria-modal="true" aria-labelledby="about-body" hidden>
+  <div class="about-in">
+    <div id="about-body"></div>
+    <button type="button" id="about-close" class="btn" data-t="close">とじる</button>
+  </div>
+</div>
+<noscript><p style="position:fixed;inset:auto 16px 16px;color:#ece8de">この作品は JavaScript を つかいます。 This work needs JavaScript.</p></noscript>
+</body>
+</html>
