@@ -55,7 +55,7 @@ function beatPlan() {
   const p = Math.abs(meter.ppm || 0);
   if (!meter.ok || p < 0.05) return { amp: null, hz: 0.6 };
   const raw = 1.0 / (256 * p * 1e-6);
-  const nice = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000];
+  const nice = [2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000];
   let amp = nice[nice.length - 1];
   for (const v of nice) if (v >= raw * 0.7) { amp = v; break; }
   const hz = clamp(256 * p * 1e-6 * amp, 0.25, 3);
@@ -107,9 +107,13 @@ function showBig(freq) {
 }
 
 // ---------- growth ----------
+// Crystal size over time: nearly steady growth, so the layers spread through the whole crystal.
+// After the piece ends the crystal keeps growing, slowly.
 function growthOuter(t) {
   if (t < GROWTH_START) return 0.08;
-  return 0.08 + 0.92 * (1 - Math.exp(-(t - GROWTH_START) / 70));
+  const u = Math.min(1, (t - GROWTH_START) / (END_AT - GROWTH_START));
+  const after = Math.max(0, t - END_AT);
+  return 0.08 + 0.74 * Math.pow(u, 0.8) + 0.12 * (1 - Math.exp(-after / 120));
 }
 
 // How much this second wavered: spread of the intervals, the largest single wobble, skipped frames.
@@ -126,14 +130,13 @@ function addLayer() {
   if (k >= 6) {
     let below = 0;
     for (const l of S.layers) if (l.score < score) below++;
-    vis = smooth(clamp((below / S.layers.length - 0.80) / 0.185, 0, 1));
+    vis = smooth(clamp((below / S.layers.length - 0.86) / 0.13, 0, 1));
   }
-  if (st.std > 1.0 || st.drops > 2) vis = Math.max(vis, 0.8);
   const width = clamp(0.0012 + st.std * 0.003, 0.0012, 0.004);
-  let alpha = 0.00002 + 0.0012 * vis;
+  let alpha = 0.000004 + 0.00022 * vis;
   let color = [0.78, 0.87, 1.0];
-  if (st.drops > 0) { color = [0.42, 0.86, 0.52]; alpha += 0.0005; }   // a green "chlorite" layer
-  if (k === 0) { color = [1.0, 0.70, 0.40]; alpha = 0.0025; vis = 1; }  // the first second
+  if (st.drops > 0) { color = [0.42, 0.86, 0.52]; alpha += 0.00003; }   // a green "chlorite" layer
+  if (k === 0) { color = [1.0, 0.70, 0.40]; alpha = 0.0005; vis = 1; }   // the first second
   const tilt = clamp(Math.abs(st.signed) * 0.003 + st.std * 0.012, 0, 0.05);
   const tiltAz = (k * 2.39996 + st.signed * 0.4) % (Math.PI * 2) - Math.PI;
   renderer.addLayer({ s, width, alpha, color, tilt, tiltAz });
@@ -396,7 +399,10 @@ function boot() {
       S.outer = growthOuter(GROWTH_START + k);
       const P = 1000 / 60;
       meter.period = P;
-      meter.bucket = Array.from({ length: 60 }, (_, i) => P + (Math.random() - 0.5) * (0.1 + (k % 17 === 5 ? 3 : 0.4)) + (k % 29 === 11 && i === 30 ? P : 0));
+      // a plausible device: small jitter that changes from second to second, occasional spikes, rare skipped frames
+      const amp = 0.06 * Math.exp(Math.random() * 1.6) + (Math.random() < 0.08 ? 1.5 + Math.random() * 2.5 : 0);
+      const drop = Math.random() < 0.03 ? Math.floor(Math.random() * 60) : -1;
+      meter.bucket = Array.from({ length: 60 }, (_, i) => P + (Math.random() - 0.5) * amp + (i === drop ? P : 0));
       addLayer();
     }
     S.t = t;

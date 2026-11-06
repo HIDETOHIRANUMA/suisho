@@ -74,7 +74,7 @@ vec3 env(vec3 d) {
   float aL = abs(mod(az + 2.36 + 3.14159, 6.28318) - 3.14159);   // tall strip behind left
   float aR = abs(mod(az + 0.785 + 3.14159, 6.28318) - 3.14159);  // tall strip behind right
   col += vec3(0.80, 0.88, 1.00) * 0.85 * smoothstep(0.17, 0.05, aL) * h;
-  col += vec3(1.00, 0.91, 0.80) * 0.55 * smoothstep(0.15, 0.045, aR) * h;
+  col += vec3(1.00, 0.95, 0.90) * 0.55 * smoothstep(0.15, 0.045, aR) * h;
   col += vec3(0.75, 0.80, 0.90) * 0.28 * smoothstep(0.55, 0.95, d.y);   // broad light from above
   vec3 L3 = normalize(vec3(0.05, -0.2, 1.0));            // low fill from the front
   col += vec3(0.80, 0.85, 0.90) * 0.22 * smoothstep(0.80, 0.98, dot(d, L3));
@@ -134,8 +134,8 @@ vec3 cum(float s, float v) {
 
 
 // Light scattered by the growth layers crossed between p0 and p1 (ray direction rd, object space).
-// A thin layer seen edge-on is crossed along a long path, so it is weighted by 1/cos^2 of the angle:
-// each layer shows mostly as a faint outline of the crystal it once was.
+// A thin layer seen edge-on is crossed along a long path, so it is weighted strongly by the angle
+// (1/cos^4, capped): each layer shows mostly as a faint outline of the crystal it once was.
 vec3 phantoms(vec3 p0, vec3 p1, vec3 rd, float jit) {
   const int M = 24;
   vec3 acc = vec3(0.0);
@@ -150,11 +150,12 @@ vec3 phantoms(vec3 p0, vec3 p1, vec3 rd, float jit) {
       vec3 mid = 0.5 * (p + pp);
       int im; gaugeI(mid, im);
       float c = abs(dot(uPl[im].xyz, rd));
-      float f = 1.0 / (c * c + 0.0012);
+      float c2 = c * c;
+      float f = 1.0 / (c2 * c2 + 0.0004);
       float v = atan(mid.z, mid.x) / 6.2831853 + 0.5;
       acc += max(cum(hi, v) - cum(lo, v), vec3(0.0)) * f;
       // the layer being laid down right now
-      if (uPulse > 0.0 && uNewS > lo - 0.003 && uNewS < hi + 0.003) acc += vec3(1.0, 0.90, 0.74) * uPulse * 0.006 * f;
+      if (uPulse > 0.0 && uNewS > lo - 0.003 && uNewS < hi + 0.003) acc += vec3(1.0, 0.90, 0.74) * uPulse * 0.0005 * f;
     }
     pp = p; gp = g;
   }
@@ -187,7 +188,7 @@ void main() {
     float cosi = clamp(-dot(ord, N), 0.0, 1.0);
     float F = 0.045 + 0.955 * pow(1.0 - cosi, 5.0);
     vec3 refl = env(uRot * reflect(ord, N));
-    vec3 iors = vec3(1.538, 1.544, 1.552);
+    vec3 iors = vec3(1.540, 1.544, 1.549);
     vec3 trans;
     vec3 ph = vec3(0.0);
     for (int c = 0; c < 3; c++) {
