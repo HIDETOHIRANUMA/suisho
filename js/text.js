@@ -71,7 +71,7 @@ export const TEXT = {
 <li>山梨県「水晶貴石細工」（昇仙峡・金峰山の 水晶）</li>
 </ul>
 <h3>制作</h3>
-<p>プログラム・映像・音は すべて この作品の ために つくりました。映像は WebGL で、音は Web Audio で その場で 生成しています。企画・プログラム・文章の 作成に 生成AI（Anthropic社の Claude）を 使いました。</p>
+<p>プログラム・映像・音は すべて この作品の ために つくりました。映像は WebGL で、音は Web Audio で その場で 生成しています。</p>
 <p>フォント：しっぽり明朝（SIL Open Font License 1.1）</p>`,
   },
   en: {
@@ -139,7 +139,7 @@ export const TEXT = {
 <li>Yamanashi Prefecture, on quartz and gemstone crafts (Shosenkyo and Mount Kinpu)</li>
 </ul>
 <h3>Making</h3>
-<p>All code, images and sound were made for this work; the images are drawn with WebGL and the sound is generated with Web Audio as you watch. Generative AI (Claude by Anthropic) was used for planning, programming and writing.</p>
+<p>All code, images and sound were made for this work; the images are drawn with WebGL and the sound is generated with Web Audio as you watch.</p>
 <p>Font: Shippori Mincho (SIL Open Font License 1.1)</p>`,
   },
 };
