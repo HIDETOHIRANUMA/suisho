@@ -24,7 +24,6 @@ https://hidetohiranuma.github.io/suisho/
 
 ## 制作
 
-- 企画・プログラム・文章の 作成に 生成AI（Anthropic社の Claude）を 使いました。
 - フォント：しっぽり明朝（Shippori Mincho、SIL Open Font License 1.1。`fonts/OFL.txt`）。作品で 使う 文字だけを 切り出しています。
 - 参考：山梨県「山梨が誇る『ものづくり技術』」「ジュエリー産地やまなしヒストリー」「水晶貴石細工」。
 
@@ -38,4 +37,4 @@ python3 -m http.server 8000
 
 ---
 
-**English.** A three-minute web piece with sound. Inside clocks and phones, a tiny quartz crystal trembles 32,768 times a second. This page times how your screen redraws, inside your browser, and lays the wavering down as one layer per second inside a rendered quartz crystal, growing a "phantom quartz" out of your device's time, while telling the story of quartz in Yamanashi (old Kai province). Everything runs locally; nothing is sent anywhere. Rendering: WebGL2 (analytic ray tracing of the crystal with refraction and dispersion). Sound: Web Audio, synthesized live. Generative AI (Claude by Anthropic) was used for planning, programming and writing. Font: Shippori Mincho (SIL OFL 1.1).
+**English.** A three-minute web piece with sound. Inside clocks and phones, a tiny quartz crystal trembles 32,768 times a second. This page times how your screen redraws, inside your browser, and lays the wavering down as one layer per second inside a rendered quartz crystal, growing a "phantom quartz" out of your device's time, while telling the story of quartz in Yamanashi (old Kai province). Everything runs locally; nothing is sent anywhere. Rendering: WebGL2 (analytic ray tracing of the crystal with refraction and dispersion). Sound: Web Audio, synthesized live. Font: Shippori Mincho (SIL OFL 1.1).
